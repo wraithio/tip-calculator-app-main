@@ -6,16 +6,23 @@ const TipComponent = () => {
   const [tip, setTip] = useState("0.00");
   const [total, setTotal] = useState("0.00");
 
+  //setting useStates
   const grabBill = async () => {
     setBill(billInput.value);
   };
+  const grabPeople = async () => {
+    setPeople(parseInt(peopleInput.value));
+  };
 
+  //on load useEffect
   useEffect(() => {
     resetBtn.setAttribute("disabled", "");
     resetBtn.style.opacity = "0.4";
     resetBtn.classList.remove("hover:bg-[#9fe8df]");
     localStorage.setItem("TipPercent", "");
   }, []);
+
+  //bill useEffect
   useEffect(() => {
     // console.log(`bill:${bill}`)
     if (localStorage.getItem("TipPercent", 0) != "") {
@@ -41,16 +48,13 @@ const TipComponent = () => {
     });
   }, [bill]);
 
-  const grabPeople = async () => {
-    setPeople(parseInt(peopleInput.value));
-  };
-
+  //people useEffect
   useEffect(() => {
     // console.log(tip);
     // console.log(`people:${people}`)
-    warningText.className = "hidden"
-    validText.className = "dark-cyan mb-2"
-    peopleInput.style.border = "none"
+    warningText.className = "hidden";
+    validText.className = "dark-cyan mb-2";
+    peopleInput.style.border = "none";
 
     if (localStorage.getItem("TipPercent", 0) != "") {
       generateResult(localStorage.getItem("TipPercent", 0), null);
@@ -63,6 +67,7 @@ const TipComponent = () => {
     }
   }, [people]);
 
+  //formats billInput and tip % to hundreths place
   function roundToHundredth(number) {
     const rounded = Math.round(number * 100) / 100;
     return rounded.toFixed(2);
@@ -85,7 +90,7 @@ const TipComponent = () => {
     resetBtn.removeAttribute("disabled");
     resetBtn.style.opacity = "1";
     resetBtn.classList.add("hover:bg-[#9fe8df]");
-    peopleInput.value = parseInt(people)
+    peopleInput.value = parseInt(people);
     if (tip != ".") {
       if (tip.length == 1) {
         tip = ".0" + tip;
@@ -118,6 +123,7 @@ const TipComponent = () => {
     }
   };
 
+  //reset btn
   const clearFields = () => {
     window.location.reload();
   };
@@ -131,9 +137,7 @@ const TipComponent = () => {
         <div className="flex sm:flex-row flex-col sm:w-fit w-screen sm:h-fit h-[37rem] gap-10 bg-white py-6 px-8 sm:rounded-xl rounded-t-3xl drop-shadow-xl">
           <div className="flex flex-col gap-4">
             <div>
-              <h3 className="dark-cyan mb-2">
-                Bill
-              </h3>
+              <h3 className="dark-cyan mb-2">Bill</h3>
               <input
                 type="number"
                 id="billInput"
