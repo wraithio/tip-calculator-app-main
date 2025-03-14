@@ -24,21 +24,14 @@ const TipComponent = () => {
 
   //bill useEffect
   useEffect(() => {
-    // console.log(`bill:${bill}`)
     if (localStorage.getItem("TipPercent", 0) != "") {
-      // console.log(localStorage.getItem("TipPercent", 0))
       generateResult(localStorage.getItem("TipPercent", 0), null);
     }
     billInput.addEventListener("input", function (e) {
       const value = e.target.value;
-
-      // Check if the input contains a decimal separator (comma or period)
       if (value.includes(".")) {
         const parts = value.split(/[.]/);
-
-        // If there's a decimal part and it's longer than 2 characters
         if (parts.length > 1 && parts[1].length > 2) {
-          // Truncate to 2 decimal places
           e.target.value =
             parts[0] +
             (value.includes(",") ? "," : ".") +
@@ -65,12 +58,6 @@ const TipComponent = () => {
     }
   }, [people]);
 
-  //formats billInput and tip % to hundreths place
-  function roundToHundredth(number) {
-    const rounded = Math.round(number * 100) / 100;
-    return rounded.toFixed(2);
-  }
-
   //switches custom button to an input field
   const toggleCustom = async () => {
     customBtn.classList.toggle("hidden");
@@ -84,39 +71,26 @@ const TipComponent = () => {
 
   //finds tip amounts and cost per person
   const generateResult = async (tip, btn) => {
-    //reset button activiation and tip decimal formatting
     resetBtn.removeAttribute("disabled");
     resetBtn.style.opacity = "1";
     resetBtn.classList.add("hover:bg-[#9fe8df]");
     peopleInput.value = parseInt(people);
-    if (tip != ".") {
-      if (tip.length == 1) {
-        tip = ".0" + tip;
-      } else {
-        tip = "." + tip;
-      }
-    }
+    tip = (tip/100).toFixed(2)
     localStorage.setItem("TipPercent", tip);
     console.log(`total bill:${bill}, people:${people}, tip%${tip}`);
     let tipAmount = (bill * tip) / people;
     let tipTotal = bill / people + tipAmount;
-    setTip(roundToHundredth(tipAmount));
-    setTotal(roundToHundredth(tipTotal));
+    setTip(tipAmount.toFixed(2));
+    setTotal(tipTotal.toFixed(2));
     const TipBtns = [TipBtn5, TipBtn10, TipBtn15, TipBtn25, TipBtn50];
+    for (let i = 0; i < TipBtns.length; i++) {
+      TipBtns[i].className =
+        "text-white bg-[#00494d] rounded-[.25rem] hover:text-[#00494d] hover:bg-[#9fe8df]";
+    }
     if (btn != null) {
-      for (let i = 0; i < TipBtns.length; i++) {
-        TipBtns[i].className =
-          "text-white bg-[#00494d] rounded-[.25rem] hover:text-[#00494d] hover:bg-[#9fe8df]";
-      }
       btn.className = "rounded-[.25rem] text-[#00494d] bg-[#26c2ad]";
-
       if (customBtn.classList.contains("hidden")) {
         toggleCustom();
-      }
-    } else {
-      for (let i = 0; i < TipBtns.length; i++) {
-        TipBtns[i].className =
-          "text-white bg-[#00494d] rounded-[.25rem] hover:text-[#00494d] hover:bg-[#9fe8df]";
       }
     }
   };
@@ -158,7 +132,7 @@ const TipComponent = () => {
                 <button
                   id="TipBtn10"
                   className="text-white bg-[#00494d] rounded-[.25rem] hover:text-[#00494d] hover:bg-[#9fe8df]"
-                  onClick={() => generateResult(1, TipBtn10)}
+                  onClick={() => generateResult(10, TipBtn10)}
                 >
                   <h2 className="sm:text-lg text-xl py-1">10%</h2>
                 </button>
@@ -179,7 +153,7 @@ const TipComponent = () => {
                 <button
                   id="TipBtn50"
                   className="text-white bg-[#00494d] rounded-[.25rem] hover:text-[#00494d] hover:bg-[#9fe8df]"
-                  onClick={() => generateResult(5, TipBtn50)}
+                  onClick={() => generateResult(50, TipBtn50)}
                 >
                   <h2 className="sm:text-lg text-xl py-1">50%</h2>
                 </button>
