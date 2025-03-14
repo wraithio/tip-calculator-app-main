@@ -190,7 +190,7 @@ const TipComponent = () => {
                   id="customBtn"
                   onClick={toggleCustom}
                 >
-                  <b className="text-lg">Custom</b>
+                  <h3 className="text-lg">Custom</h3>
                 </button>
 
                 <input
