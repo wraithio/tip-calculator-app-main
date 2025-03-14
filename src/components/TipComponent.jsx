@@ -129,7 +129,7 @@ const TipComponent = () => {
   return (
     <div className="min-h-screen flex justify-center place-items-center">
       <div className="flex flex-col gap-8">
-        <div className="flex justify-center sm:mt-0 mt-8">
+        <div className="flex justify-center sm:mt-0 mt-8 sm:mb-12 mb-0">
           <img src="/images/logo.svg" alt="tip calculator logo" />
         </div>
         <div className="flex sm:flex-row flex-col sm:w-fit w-screen sm:h-fit h-[37rem] gap-10 bg-white py-6 px-8 sm:rounded-xl rounded-t-3xl drop-shadow-xl">
@@ -226,7 +226,8 @@ const TipComponent = () => {
             <div className="flex sm:gap-8 gap-4 justify-between">
               <div>
                 <h3 className="text-white sm:text-base text-xs">Tip Amount</h3>
-                <h3 className="gray-cyan sm:text-base text-xs">/ person</h3>
+
+                <h3 className="gray-cyan md:text-base text-xs">/ person</h3>
               </div>
               <div className="flex place-items-center text-[#26c0ab] text-2xl sm:text-4xl">
                 <h1>
@@ -237,7 +238,7 @@ const TipComponent = () => {
             <div className="flex sm:gap-8 gap-4 justify-between">
               <div>
                 <h3 className="text-white sm:text-base text-xs">Total</h3>
-                <h3 className="gray-cyan sm:text-base text-xs">/ person</h3>
+                <h3 className="gray-cyan md:text-base text-xs">/ person</h3>
               </div>
               <div className="flex place-items-center text-[#26c0ab] text-2xl sm:text-4xl">
                 <h1>
