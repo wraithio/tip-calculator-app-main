@@ -50,8 +50,6 @@ const TipComponent = () => {
 
   //people useEffect
   useEffect(() => {
-    // console.log(tip);
-    // console.log(`people:${people}`)
     warningText.className = "hidden";
     validText.className = "dark-cyan mb-2";
     peopleInput.style.border = "none";
