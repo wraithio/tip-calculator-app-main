@@ -14,7 +14,7 @@ const TipComponent = () => {
     resetBtn.setAttribute("disabled", "");
     resetBtn.style.opacity = "0.4";
     resetBtn.classList.remove("hover:bg-[#9fe8df]");
-    localStorage.setItem("TipPercent","")
+    localStorage.setItem("TipPercent", "");
   }, []);
   useEffect(() => {
     // console.log(`bill:${bill}`)
@@ -22,10 +22,27 @@ const TipComponent = () => {
       // console.log(localStorage.getItem("TipPercent", 0))
       generateResult(localStorage.getItem("TipPercent", 0), null);
     }
+    billInput.addEventListener("input", function (e) {
+      const value = e.target.value;
+
+      // Check if the input contains a decimal separator (comma or period)
+      if (value.includes(".")) {
+        const parts = value.split(/[.]/);
+
+        // If there's a decimal part and it's longer than 2 characters
+        if (parts.length > 1 && parts[1].length > 2) {
+          // Truncate to 2 decimal places
+          e.target.value =
+            parts[0] +
+            (value.includes(",") ? "," : ".") +
+            parts[1].substring(0, 2);
+        }
+      }
+    });
   }, [bill]);
 
   const grabPeople = async () => {
-    setPeople(peopleInput.value);
+    setPeople(parseInt(peopleInput.value));
   };
 
   useEffect(() => {
@@ -36,15 +53,13 @@ const TipComponent = () => {
     peopleInput.style.border = "none"
 
     if (localStorage.getItem("TipPercent", 0) != "") {
-      console.log("1")
       generateResult(localStorage.getItem("TipPercent", 0), null);
     }
 
-    if(people == 0)
-    {
-        peopleInput.style.border = "1px solid red"
-        warningText.className = "show"
-        validText.className = "dark-cyan mb-2 hidden"
+    if (people == 0) {
+      peopleInput.style.border = "1px solid red";
+      warningText.className = "show";
+      validText.className = "dark-cyan mb-2 hidden";
     }
   }, [people]);
 
@@ -70,6 +85,7 @@ const TipComponent = () => {
     resetBtn.removeAttribute("disabled");
     resetBtn.style.opacity = "1";
     resetBtn.classList.add("hover:bg-[#9fe8df]");
+    peopleInput.value = parseInt(people)
     if (tip != ".") {
       if (tip.length == 1) {
         tip = ".0" + tip;
@@ -115,14 +131,17 @@ const TipComponent = () => {
         <div className="flex sm:flex-row flex-col sm:w-fit w-screen sm:h-fit h-[37rem] gap-10 bg-white py-6 px-8 sm:rounded-xl rounded-t-3xl drop-shadow-xl">
           <div className="flex flex-col gap-4">
             <div>
-              <h3 className="dark-cyan mb-2">Bill</h3>
+              <h3 className="dark-cyan mb-2">
+                Bill
+              </h3>
               <input
                 type="number"
                 id="billInput"
                 onChange={grabBill}
                 placeholder="0"
                 min="0"
-                className="sm:w-fit w-full"              />
+                className="sm:w-fit w-full"
+              />
             </div>
             <div>
               <h3 className="dark-cyan mb-2">Select Tip %</h3>
@@ -176,24 +195,28 @@ const TipComponent = () => {
                   placeholder="%"
                   id="customInput"
                   onChange={() => generateResult(customInput.value, null)}
-                  min="0"  
+                  min="0"
                 />
               </div>
             </div>
             <div>
-              <h3 className="dark-cyan mb-2" id="validText">Number of People</h3>
+              <h3 className="dark-cyan mb-2" id="validText">
+                Number of People
+              </h3>
               <div id="warningText">
-              <div className="flex justify-between ">
-              <h3 className="dark-cyan mb-2">Number of People</h3>
-              <h3 className="text-red-500 mb-2"><b>Can't be zero</b></h3>
-              </div>
+                <div className="flex justify-between ">
+                  <h3 className="dark-cyan mb-2">Number of People</h3>
+                  <h3 className="text-red-500 mb-2">
+                    <b>Can't be zero</b>
+                  </h3>
+                </div>
               </div>
               <input
                 type="number"
                 id="peopleInput"
                 placeholder="0"
                 onChange={grabPeople}
-                className="sm:w-fit w-full" 
+                className="sm:w-fit w-full"
               />
             </div>
           </div>
@@ -228,9 +251,7 @@ const TipComponent = () => {
                 onClick={clearFields}
               >
                 <div className="flex w-full justify-center">
-                  <h1 className="dark-cyan text-lg">
-                    <b>RESET</b>
-                  </h1>
+                  <h1 className="dark-cyan text-lg">RESET</h1>
                 </div>
               </button>
             </div>
@@ -239,6 +260,6 @@ const TipComponent = () => {
       </div>
     </div>
   );
-}
+};
 
 export default TipComponent;
